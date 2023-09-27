@@ -1,0 +1,130 @@
+linorcohen
+318861226
+
+#API additions and changes explanation:
+
+CollisionStrategy-
+set gameObjects field to protected to make sure all his inherits can use it.
+
+CameraStrategy-
+this class represent the camera strategy and inherits from CollisionStrategy.
+override the method onCollision().
+its behaviour does the same behaviour as the CollisionStrategy, and add the activation of the camera.
+
+DoubleStrategy-
+this class represent the Double strategy and inherits from CollisionStrategy.
+override the method onCollision().
+its behaviour does the same behaviour as the CollisionStrategy, and it operates all the strategies it holds.
+
+HeartStrategy-
+this class represent the heart strategy and inherits from CollisionStrategy.
+override the method onCollision().
+its behaviour does the same behaviour as the CollisionStrategy, and adds a heart object to the game that
+fulls in the y direction from the center of the brick.
+
+PuckStrategy-
+this class represent the puck strategy and inherits from CollisionStrategy.
+override the method onCollision().
+its behaviour does the same behaviour as the CollisionStrategy, and adds a puck ball objects from the center
+of the brick to the game.
+
+TempPaddleStrategy-
+this class represent temp paddle strategy and inherits from CollisionStrategy.
+override the method onCollision().
+its behaviour does the same behaviour as the CollisionStrategy, and activate the TempPaddle if not already
+activated.
+
+Floor-
+this class represent the game floor that inherits from GameObject. this class operates like a
+"falling hearts controller", because the only
+object that can collied with it is the falling hearts from HeartStrategy, and once it collides with them
+he removes them from the game.
+
+CameraController-
+this class represent the camera controller object that inherits from GameObject. it the controls the
+activation of the camera to follow after the main ball. this class has a method to activate the camera and
+a method to deactivate it. the activation status prevents the brick with the CameraStrategy from activating
+the camera if its already
+activated.
+
+TempPaddle-
+this class represent the TempPaddle, that inherits from Paddle. it has an activation status, and a method
+for activating the paddle in the game, and a method to deactivate the paddle in the game
+(set its size to 0x0).
+it operates like the paddle from the user input but it deactivate itself if it was hit 3 times,
+calculated using its hit counter.
+
+StrategyFactory-
+this class represent a factory for creating an instance of  each different strategy as CollisionStrategy.
+
+Ball-
+add the method getCollisionCount() that returns the number of collisions the ball made.
+
+GraphicLifeCounter-
+add to class the ability to add hearts and remove hearts from the graphic life counter in case the life
+counter value is bigger then the current life number (or less).
+in addition it uses the Heart Object (and not creating only GameObject).
+
+NumericLifeCounter-
+add the color green for a when life counter value is 4.
+
+BrickerGameManager-
+add methods that adds the floor, TempPaddle, CameraController to the game.
+in the method addBricksToGame() we create the strategyFactory instance, and use its method buildStrategy()
+to add random strategy to the brick.
+
+Paddle -untouched
+
+Brick -untouched
+
+#questions:
+
+#הסבירו כיצד תכננתם כל התנהגות שמימשתם – רשימות מחלקות, תבניות עיצוב שהמחלקות מממשות, בין
+אם בעקבות החלטתכם ובין אם בעקבות התכנון של DanoGameLab:
+
+בחרנו לממש כל אחת מההתנהגויות בכך שהיא תירש מההתנהגות הבסיסית של כל לבנה שהיא
+CollisionStrategy
+וכן בצורה נוכל להעביר ללבנה את אותו טיפוס של התנהגות ולהשתמש באותה מתודה וכך ליצור פולימורפיזם
+פולימורפיזם זה היה נחוץ גם כדי שנוכל ליצור מחלקת מפעל המייצרת אינסטנסים של כל התנהגות בהתאם
+דאגנו שהפולימורפיזם יתבטא בכך שכל מחלקת אסטרטגיה תממש את הפונקציה
+onCollision()
+
+עבור אובייקטי משחק שהוספנו היה צורך לדאוג כי הם יתנגשו אך ורק באובייקטים מסוימים לכן השתמשנו במתודות של
+DanoGameLab
+על מנת לדאוג שהאובייקט מתנהג כמו אובייקט אך הוא בלתי נראה עבור כמה אובייקטים אחרים
+
+כמו כן יצרנו אובייקטים נוספים שמטרתם לשלוט בכל מיני מצבים של המשחק (למשל המצלמה) כך שהאסטרטגיה אחראית רק
+לדאוג להפעיל את המצב במידה ואפשר ואותה מחלקה שאחראית על המצב תדאג גם לכבות את המצב במידה והוא מתאים לתנאים
+עבור יצירת אובייקט הריצפה בחרנו ליצור אותו במחשבה קדימה בתור סוג של אחראי להסרת אובייקטים שנופלים
+מהמסך ואין בהם שימוש יותר (אם נרצה לוסיף עוד אובייקטים כמו הלב שנופל)
+
+#אם מדובר בתבנית עיצוב שאתם בחרתם – מדוע בחרתם בתבניות עיצוב אלו? מדוע היה עדיף להשתמש
+בהן מאשר לתכנן את הקוד אחרת:
+
+העדפנו להתשמש בירושה עבור מחלקות האסטרטגיה כי המחלקה שהן יורשות ממנה מקיימת התנהגות יחסית מאוד פשוטה שכל
+אסטרטגיה אחרת צריכה לממש
+יכולנו לשנות את המחלקה
+CollisionStrategy
+לממשק ואז ליצור מחלקה נוספת של התנהגות רגילה אבל בגלל שהמחלקה הזו כל כך פשוטה ואין בה הרבה תוכן בחרנו
+לממש ירושה
+
+
+#כיצד הגבלתם את כמות ההתנהגויות הכפולות ל-3 התנהגויות?
+מה היה העיצוב שבחרתם כדי שלבנה תוכל להחזיק יותר מהתנהגות אחת? כיצד הפיתרון תומך בהרחבה
+ של כמות גדולה יותר של התנהגויות בלבנה אחת?
+
+ כאשר אנחנו קוראים לפונקציה
+ buildStrategy()
+ אנחנו מעבירים אליה גם פרמטר של כמות אסטרטגיות מקסימלית ללבנה
+ במידה ונבחרה אסטרטגיה שהיא לא כפולה לא משתמשים בפרמטר
+ במידה והגרלנו התנהגות כפולה ניצור אינסטנט של התנהגות כפולה והיא תקבל את אותו פרמטר פחות אחד
+  אינדיקטור לכך שהשתמשנו בהתנהגות אחת כבר (כי כפולה תופס מקום של התנהגות)
+ בתוך הבנאים של ההתנהגות הכפולה יוגרלו עוד שני התנהגויות ובצורה ריקורסיבית נבדוק האם גמרנו את מכסה
+ ההתנהגויות הכפולות שאפשר להשתמש
+  (הרי עבור k התנהגויות אפשר להשתמש ב K-1 כפולות)
+ במידה וסיימנו נגריל התנהגות שאינה כפולה
+
+ מה שיקרה שעבור לבנה שמחזיקה כמה התנהגויות הן יהיו מאוכסנות אחת בתוך השניה בצורה ריקורסיבית ויקראו לכך
+
+ הפתרון תומך בהרחבה של כמות גדולה יותר של התנהגויות כי אנחנו קובעים את כמות הכניסות הריקורסיביות
+ לתוך התנהגות כפולה במשחק עצמו לכן רק צריך לשנות את הפרמטר הזה במשחק
