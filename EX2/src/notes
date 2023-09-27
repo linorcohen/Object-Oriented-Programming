@@ -1,0 +1,102 @@
+        int numOfDiagonals = (boardSize * 2) - 1;
+        int diagonalNum = 0;
+        for (int i = 1; i <= numOfDiagonals; i++) {
+            int countDiagonal = 0;
+            if (i <= (numOfDiagonals / 2) + 1) {
+                diagonalNum++;
+                for (int j = 0; j < diagonalNum; j++) {
+                    if (this.board.getMark((i - j) - 1, j) == mark) {
+                        countDiagonal++;
+                    } else {
+                        countDiagonal = 0;
+                    }
+                    if (countDiagonal >= this.winStreak) {
+                        return true;
+                    }
+                }
+            } else {
+                diagonalNum--;
+                for (int j = 0; j < diagonalNum; j++) {
+                    if (this.board.getMark((boardSize - 1) - j, (i - boardSize) + j) == mark) {
+                        countDiagonal++;
+                    } else {
+                        countDiagonal = 0;
+                    }
+                    if (countDiagonal >= this.winStreak) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+---------------------------------
+
+
+
+
+
+-------------------------------
+int curRow = this.prevRow - 1;
+        int curCol = this.prevCol - 1;
+        for (int i = 0; i < CHECK_BOX_SIZE; i++) {
+            for (int j = 0; j < CHECK_BOX_SIZE; j++) {
+                curCol += j;
+                if (curRow < board.getSize() && curRow >= 0 && curCol < board.getSize() && curCol >= 0) {
+                    if (board.putMark(mark, curRow, curCol)) {
+                        this.prevRow = curRow;
+                        this.prevCol = curCol;
+                        return;
+                    }
+                }
+            }
+            curRow += i;
+        }
+
+
+--------------------
+    private void randomPlacement(Board board, Mark mark){
+        boolean invalidPlacement = true;
+        while (invalidPlacement){
+            this.prevRow = rand.nextInt(board.getSize());
+            this.prevCol = rand.nextInt(board.getSize());
+            if (board.putMark(mark,this.prevRow,this.prevCol)){
+                invalidPlacement = false;
+            }
+        }
+    }
+
+
+
+--------------
+
+    private void firstsEmptyPlacement(Board board, Mark mark){
+        for (int row = 0; row < board.getSize();row++){
+            for (int col = 0; col < board.getSize(); col++){
+                if (board.getMark(row, col) == Mark.BLANK){
+                    board.putMark(mark,row, col);
+                    return;
+                }
+            }
+        }
+    }
+
+
+-----------------
+
+//    /**
+//     * private method that place the given mark on an available random slot.
+//     * @param board - Board of the game
+//     * @param mark - Mark of the player
+//     */
+//    private void randomPlacement(Board board, Mark mark) {
+//        boolean invalidPlacement = true;
+//        while (invalidPlacement) {
+//            this.prevRow = rand.nextInt(board.getSize());
+//            this.prevCol = rand.nextInt(board.getSize());
+//            if (board.putMark(mark, this.prevRow, this.prevCol)) {
+//                invalidPlacement = false;
+//            }
+//        }
+//    }
