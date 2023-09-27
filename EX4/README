@@ -1,0 +1,73 @@
+linorcohen
+318861226
+
+=============================
+=      File description     =
+=============================
+BrightnessImgCharMatcher.java - this class responsible for setting the brightness of the ASCII characters.
+Shell.java - this class represent the user interface operations.
+FileImage.java - this class represent the given image array.
+Image.java - Facade for the image module and an interface representing an image.
+SubImage.java - this class represent a sub image of the given image, implements the Image interface.
+SubImageIterableProperty.java - this class represent an iterable property of the SubImage.
+=============================
+=          Design           =
+=============================
+I decided to create a class SubImage the implements the interface image so i can create iterator that
+runs over objects of that type. each object of SubImage holds an array of colors, according to the
+given size, and top left pixel.
+
+I created an iterable class that implements iterable interface,SubImageIterableProperty. this class object
+return san iterator.
+
+=============================
+=  Implementation details   =
+=============================
+# Bonus iterator description:
+I implemented an iterator that allows running on all the sub-images, by adding a default method to the
+Image interface that implements the required.
+this method creates an object of class SubImageIterableProperty, us i implemented to be iterable,
+and implements iterator. in the constructor of that class we deliver the lambda method that creates a
+SubImage object. this object represent the sub-image and implements the interface Image - so the methods
+get pixel(), get height() and get width() are implemented too. this allows us to run over all sub-images and
+use these methods in foreach loop.
+
+notice that we pass the function get pixel() to the constructor of SubImage so we could run over the original
+image pixels from instance itself that holds the image.
+=============================
+=    Answers to questions   =
+=============================
+# The memory complications and the runtime complications of the algorithm in part A:
+
+I implemented the code so it can be optimized to save runtime in converting the next image, by adding a map
+that holds each Image object (sub-image) and its brightness, so if the while converting the image again,
+the sub-image is in that map, no need to calculate its brightness again and just we can just get its char.
+this way if we are going to call again for the chooseChars() command we can save the brightness values
+calculated in the first run and use them next time we will run on the picture.
+this takes us O(1) amortized. and O(n) space.
+
+calculate the algorithm runtime and space:
+A. Padding the image - FileImage class responsibility, takes O(n^2) n=max{newHeight, newWidth}.
+and O(n^2) space (assuming Color takes O(1))
+
+B. Convert the image into sub-images according to the resolution we are interested in - SubImage iterator,
+each call for sub-image from the iterator operate a method getSubImg() that takes O(sizeOfSubImage^2) times
+the amount of SubImage = O(n^2).
+and O(n) space (assuming Color takes O(1)) because we create subImage and then delete it and create a new
+one again and again.
+
+C. Setting the brightness of the ASCII characters (each character looks different and fills with black a
+different percentage of the pixel in which it is drawn and therefore each character has a different
+brightness (with which we would like to draw the picture - BrightnessImgCharMatcher class responsibility,
+takes O(m*s) for m=running time for CharRenderer.getImg(), s=number of chars in set.
+and space O(s) for each map we hold.
+
+D. Convert each sub-image to a character with its appropriate brightness -
+BrightnessImgCharMatcher class responsibility, takes O(n*s) for running on each sub-image,
+n=number of sub-images, s=number of char in set.
+and space O(n^2).
+
+in conclusion the algorithm running time take  = O(n^2 + n*s + m*s) for
+m=running time for CharRenderer.getImg(), s=number of chars in set, n=max{newHeight, newWidth}.
+assuming all params is the same we get O(n^2).
+and space O(n^2).
