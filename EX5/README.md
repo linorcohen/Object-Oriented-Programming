@@ -11,3 +11,8 @@ press ← to move left
 press 'space' to jump  
 press 'space' + 'shift' to fly. drop shift to stop. (note that the avatar will fly for a limit amount of time)  
 
+## Example
+
+
+https://github.com/linorcohen/Object-Oriented-Programming/assets/76969581/c853218d-e3be-4f2e-ab11-fd11d5af975f
+
