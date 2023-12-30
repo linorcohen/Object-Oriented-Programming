@@ -5,5 +5,5 @@
 - Ex3_2 - Brick Breaker game part 2 - add aditional Collision strategies.
 - Ex4 - This program converting images to ASCII art.
 - Ex5 - Pepse game - Supermario kind of a game.
-- Ex6 - A program validate a code file.
+- Ex6 - This program validate a code file.
 
