@@ -8,3 +8,7 @@ The given strategies are:
 - Puck Strategy - White balls will be created in the center of the brick's position (in its place). Their size is a third of the length of the brick and the initial direction of each of them will be a random diagonal.
 - Temporary Paddle Strategy - A temporary paddle will be added for a short time.
 
+## Example
+
+https://github.com/linorcohen/Object-Oriented-Programming/assets/76969581/f25c400e-47f3-4c36-ad70-ee96dab6ae67
+
